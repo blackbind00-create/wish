@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary Dost! 🎂</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #0f0c29;
+        }
+
+        /* ===== ANIMATION SECTION (First Screen) ===== */
+        #animation-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+
+        .cake-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+
+        /* Cake Base */
+        .cake {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 120px;
+            background: linear-gradient(to bottom, #f4a460 0%, #d2691e 100%);
+            border-radius: 10px 10px 50px 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: cakeAppear 1s ease-out 0.5s both;
+        }
+
+        .cake::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            width: 200px;
+            height: 50px;
+            background: linear-gradient(to bottom, #fff5ee 0%, #ffe4e1 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
+        }
+
+        .cake::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            width: 180px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ff6b6b 0%, #ee5a5a 100%);
+            border-radius: 50%;
+        }
+
+        /* Strawberries */
+        .strawberry {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: #ff1744;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 10;
+            animation: berryDrop 0.5s ease-out both;
+        }
+
+        .strawberry::before {
+            content: '🍓';
+            position: absolute;
+            font-size: 20px;
+            top: -5px;
+            left: 2px;
+        }
+
+        .sb1 { top: -35px; left: 40px; animation-delay: 1.5s; }
+        .sb2 { top: -35px; left: 90px; animation-delay: 1.7s; }
+        .sb3 { top: -35px; left: 140px; animation-delay: 1.9s; }
+        .sb4 { top: -35px; left: 190px; animation-delay: 2.1s; }
+
+        /* Candles */
+        .candle {
+            position: absolute;
+            width: 12px;
+            height: 50px;
+            background: linear-gradient(to right, #ffd700, #ffed4e, #ffd700);
+            border-radius: 3px;
+            z-index: 5;
+            animation: candleGrow 0.5s ease-out both;
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -2px;
+            width: 16px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+
+        .c1 { bottom: 170px; left: 80px; animation-delay: 2.3s; }
+        .c2 { bottom: 170px; left: 144px; animation-delay: 2.5s; }
+        .c3 { bottom: 170px; left: 208px; animation-delay: 2.7s; }
+
+        /* Flames */
+        .flame {
+            position: absolute;
+            width: 16px;
+            height: 24px;
+            background: radial-gradient(ellipse at bottom, #ff6b35 0%, #f7c600 50%, #fff 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            bottom: 55px;
+            left: -2px;
+            animation: flicker 0.5s ease-in-out infinite alternate;
+            opacity: 0;
+        }
+
+        .flame.show { opacity: 1; }
+        .flame.blow { animation: blowOut 0.8s ease-out forwards; }
+
+        /* Knife */
+        .knife {
+            position: absolute;
+            width: 80px;
+            height: 15px;
+            background: linear-gradient(to bottom, #c0c0c0, #808080);
+            border-radius: 0 10px 10px 0;
+            top: 80px;
+            right: -100px;
+            transform: rotate(-30deg);
+            animation: cutCake 2s ease-in-out 4s forwards;
+            z-index: 20;
+        }
+
+        .knife::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 2px;
+            width: 30px;
+            height: 11px;
+            background: #8b4513;
+            border-radius: 3px;
+        }
+
+        /* Characters */
+        .character {
+            position: absolute;
+            font-size: 80px;
+            bottom: 20px;
+            animation: charAppear 1s ease-out both;
+        }
+
+        .char-left { left: 20px; animation-delay: 0.3s; }
+        .char-right { right: 20px; animation-delay: 0.5s; }
+
+        /* Text */
+        .anim-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+            animation: textGlow 2s ease-in-out infinite alternate;
+            margin-top: 20px;
+        }
+
+        .click-hint {
+            color: #fff;
+            font-size: 1rem;
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 6s forwards;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        #main-content {
+            display: none;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Music Section */
+        .music-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .music-box {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .music-box h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .embed-placeholder {
+            width: 100%;
+            height: 80px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        /* Photo Gallery */
+        .gallery-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            width: 90%;
+            margin-top: 30px;
+        }
+
+        .photo-card {
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: rotate(-3deg);
+            transition: transform 0.3s;
+        }
+
+        .photo-card:nth-child(even) { transform: rotate(3deg); }
+        .photo-card:hover { transform: rotate(0deg) scale(1.05); }
+
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .gallery-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Wishes Section */
+        .wishes-section {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .wishes-container {
+            max-width: 800px;
+            width: 90%;
+        }
+
+        .wish-card {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 0.6s ease-out;
+        }
+
+        .wish-card.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .wish-card h3 {
+            color: #e91e63;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .wish-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Message Section */
+        .message-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .message-box {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .message-box h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .typewriter {
+            font-size: 1.2rem;
+            color: #555;
+            min-height: 100px;
+            border-right: 3px solid #764ba2;
+            animation: blink 0.7s infinite;
+        }
+
+        /* Video/Gift Section */
+        .gift-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            position: relative;
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .gift-box:hover { transform: scale(1.1); }
+
+        .gift-box::before {
+            content: '🎁';
+            font-size: 80px;
+        }
+
+        .gift-box p {
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .video-modal.active { display: flex; }
+
+        .video-container {
+            width: 90%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .video-container iframe, .video-container video {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .close-video {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .close-video:hover { transform: scale(1.1); }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall linear forwards;
+            z-index: 999;
+        }
+
+        /* Animations */
+        @keyframes cakeAppear {
+            from { transform: translateX(-50%) scale(0); opacity: 0; }
+            to { transform: translateX(-50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes berryDrop {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes candleGrow {
+            from { transform: scaleY(0); opacity: 0; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        @keyframes blowOut {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes cutCake {
+            0% { right: -100px; }
+            30% { right: 80px; top: 80px; }
+            50% { right: 150px; top: 120px; }
+            100% { right: 200px; top: 150px; opacity: 0; }
+        }
+
+        @keyframes charAppear {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+            to { text-shadow: 0 0 40px rgba(255,215,0,0.8), 0 0 60px rgba(255,215,0,0.4); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: #764ba2; border-radius: 5px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .anim-text { font-size: 2rem; }
+            .gallery-container { grid-template-columns: 1fr; }
+            .character { font-size: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== ANIMATION SCREEN ===== -->
+    <div id="animation-screen">
+        <div class="cake-container">
+            <div class="character char-left">🐻</div>
+            <div class="character char-right">🐼</div>
+            
+            <div class="cake">
+                <div class="strawberry sb1"></div>
+                <div class="strawberry sb2"></div>
+                <div class="strawberry sb3"></div>
+                <div class="strawberry sb4"></div>
+            </div>
+            
+            <div class="candle c1"><div class="flame" id="f1"></div></div>
+            <div class="candle c2"><div class="flame" id="f2"></div></div>
+            <div class="candle c3"><div class="flame" id="f3"></div></div>
+            
+            <div class="knife"></div>
+        </div>
+        
+        <h1 class="anim-text">Happy Anniversary!</h1>
+        <p class="click-hint">Click anywhere to continue...</p>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div id="main-content">
+        
+        <!-- Music Section -->
+        <section class="section music-section">
+            <div class="music-box">
+                <h2>🎵 Our Special Song 🎵</h2>
+                <p>Yahan apna favourite song embed karo!</p>
+                
+                <!-- YAHAN EMBED CODE DAALO - Example: -->
+                <!-- <iframe src="https://open.spotify.com/embed/track/..." width="100%" height="80" frameborder="0"></iframe> -->
+                
+                <div class="embed-placeholder">
+                    📌 Yahan apna Spotify/YouTube embed code paste karo
+                </div>
+                
+                <p style="font-size: 0.8rem; color: #999; margin-top: 10px;">
+                    Tip: Spotify/YouTube se "Embed" option copy karo
+                </p>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section class="section gallery-section">
+            <h2 class="gallery-title">📸 Beautiful Memories 📸</h2>
+            <div class="gallery-container">
+                <!-- YAHAN APNI 3-4 PICTURES DAALO -->
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/300x250/ff6b6b/ffffff?text=Photo+1" alt="Memory 1">
+                </div>
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/300x250/4ecdc4/ffffff?text=Photo+2" alt="Memory 2">
+                </div>
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/300x250/ffe66d/ffffff?text=Photo+3" alt="Memory 3">
+                </div>
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/300x250/a8e6cf/ffffff?text=Photo+4" alt="Memory 4">
+                </div>
+            </div>
+            <p style="color: white; margin-top: 20px; font-size: 0.9rem;">
+                💡 Images ko replace karne ke liye src mein apni photo ka link daalo
+            </p>
+        </section>
+
+        <!-- Wishes Section -->
+        <section class="section wishes-section">
+            <h2 class="gallery-title">💝 Heartfelt Wishes 💝</h2>
+            <div class="wishes-container">
+                <div class="wish-card">
+                    <h3>🌟 Wish #1</h3>
+                    <p>Tumhari dosti meri zindagi ka sabse khoobsurat tohfa hai. Hamesha aise hi muskurati raho!</p>
+                </div>
+                <div class="wish-card">
+                    <h3>💖 Wish #2</h3>
+                    <p>Har pal, har lamha tumhare saath guzarna ek nayi yaad banata hai. Thank you for being you!</p>
+                </div>
+                <div class="wish-card">
+                    <h3>🎂 Wish #3</h3>
+                    <p>Allah tumhe hamesha khush rakhe, tumhari har dua qubool kare. Happy Anniversary meri jaan!</p>
+                </div>
+                <div class="wish-card">
+                    <h3>✨ Wish #4</h3>
+                    <p>Yeh dosti hamesha rahegi, chahe duniya badal jaye. Love you forever! 💕</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Message Section -->
+        <section class="section message-section">
+            <div class="message-box">
+                <h2>💌 A Special Message For You 💌</h2>
+                <div class="typewriter" id="typewriter"></div>
+                <p style="margin-top: 20px; color: #999; font-size: 0.9rem;">
+                    💡 Is message ko edit karne ke liye neeche JavaScript mein text change karo
+                </p>
+            </div>
+        </section>
+
+        <!-- Gift/Video Section -->
+        <section class="section gift-section">
+            <h2 class="gallery-title" style="margin-bottom: 30px;">🎁 A Special Surprise! 🎁</h2>
+            <div class="gift-box" onclick="openGift()">
+                <p>Open Gift!</p>
+            </div>
+            <p style="color: #555; margin-top: 20px;">Click to reveal the surprise! ✨</p>
+        </section>
+
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-container">
+            <!-- YAHAN APNI VIDEO EMBED KARO -->
+            <!-- Example: <iframe src="https://www.youtube.com/embed/VIDEO_ID"></iframe> -->
+            <!-- Ya phir: <video controls><source src="your-video.mp4"></video> -->
+            
+            <div style="color: white; display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
+                <p style="font-size: 1.5rem; margin-bottom: 10px;">🎥 Video Yahan Aayegi</p>
+                <p>Apni video embed karo ya link daalo</p>
+            </div>
+        </div>
+        <button class="close-video" onclick="closeGift()">Close ❌</button>
+    </div>
+
+    <script>
+        // ===== ANIMATION LOGIC =====
+        const animationScreen = document.getElementById('animation-screen');
+        const mainContent = document.getElementById('main-content');
+        const flames = document.querySelectorAll('.flame');
+        
+        // Show flames after candles appear
+        setTimeout(() => {
+            flames.forEach(f => f.classList.add('show'));
+        }, 3500);
+
+        // Blow candles after knife cuts
+        setTimeout(() => {
+            flames.forEach((f, i) => {
+                setTimeout(() => f.classList.add('blow'), i * 200);
+            });
+        }, 5000);
+
+        // Transition to main content on click
+        setTimeout(() => {
+            animationScreen.addEventListener('click', transitionToMain);
+        }, 7000);
+
+        function transitionToMain() {
+            animationScreen.style.opacity = '0';
+            setTimeout(() => {
+                animationScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                document.body.style.overflow = 'auto';
+                startTypewriter();
+                observeWishes();
+                createConfetti();
+            }, 1000);
+        }
+
+        // ===== TYPEWRITER EFFECT =====
+        const messageText = "Meri pyaari dost... Tum meri zindagi ka woh hissa ho jiske bina sab adhura lagta hai. Tumhari hasi meri duniya roshan karti hai. Hamesha aise hi rehna. Happy Anniversary! 💕";
+        let charIndex = 0;
+
+        function startTypewriter() {
+            const typewriter = document.getElementById('typewriter');
+            function type() {
+                if (charIndex < messageText.length) {
+                    typewriter.textContent += messageText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, 50);
+                }
+            }
+            type();
+        }
+
+        // ===== SCROLL ANIMATIONS =====
+        function observeWishes() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            document.querySelectorAll('.wish-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // ===== GIFT MODAL =====
+        function openGift() {
+            document.getElementById('videoModal').classList.add('active');
+            // Auto play video if iframe exists
+            const iframe = document.querySelector('.video-container iframe');
+            if (iframe) {
+                let src = iframe.src;
+                if (!src.includes('autoplay')) {
+                    iframe.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
+                }
+            }
+        }
+
+        function closeGift() {
+            document.getElementById('videoModal').classList.remove('active');
+            // Stop video
+            const iframe = document.querySelector('.video-container iframe');
+            if (iframe) {
+                iframe.src = iframe.src.replace('&autoplay=1', '').replace('?autoplay=1', '');
+            }
+        }
+
+        // ===== CONFETTI =====
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ff8b94', '#c7ceea'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 50);
+            }
+        }
+
+        // Close modal on outside click
+        document.getElementById('videoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'videoModal') closeGift();
+        });
+    </script>
+</body>
+</html>
